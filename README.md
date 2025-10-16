@@ -1,7 +1,10 @@
+SHRIRAM.S(212222020027)
 # Anti-Theft-Alert-System-using-Tilt-Sensor
 
-## Aim: To measure the tilt Sensor using SW200D with Arduino UNO Board/ESP-32 using Tinker CAD.
-
+## Aim:
+~~~
+To measure the tilt Sensor using SW200D with Arduino UNO Board/ESP-32 using Tinker CAD.
+~~~
 ## Hardware / Software Tools required:
 	PC/ Laptop with Internet connection
   Tinker CAD tool (Online)
@@ -9,6 +12,9 @@
 	Tilt sensor(SW200D)
 
 ## Circuit Diagram:
+~~~
+<img width="1470" height="738" alt="image" src="https://github.com/user-attachments/assets/e9d198ba-ca8d-4099-90ac-fad1f91791cd" />
+~~~
  
 ## Theory :
  The Arduino Uno is powered by the ATmega328P, an 8-bit microcontroller that runs at 16 MHz. It has 32 KB of flash memory, 2 KB of SRAM, and 1 KB of EEPROM. The board has 14 digital I/O pins (of which 6 can be used as PWM outputs) and 6 analog input pins. These pins allow the board to interface with various sensors, actuators, and other devices.The Arduino Uno can be powered via a USB connection or an external power supply. The board has a built-in voltage regulator to manage power from 7 to 12 volts.
@@ -46,15 +52,86 @@ Step 7: Save Your Work
 •	Save the Circuit: Click "Save" to keep your circuit design and code for future use.
 
 ## Code:
+~~~
+#include <LiquidCrystal.h>
 
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+int motionDetect = 7;
+int secs = 0;
 
-
-## Output:
-
+void setup() {
+  Serial.begin(9600);
+  lcd.begin(16, 2);
+  pinMode(6,OUTPUT);
+  pinMode(motionDetect,INPUT);
+  pinMode(A0, OUTPUT);
  
+}
 
+void loop() {
+  int detect = digitalRead(motionDetect);
+  lcd.setCursor(0,0);
+  if (detect==1){
+    detected();
+  }
+  else{
+    lcd.print("No Motion");
+    lcd.setCursor(0,1);
+    lcd.println("Detected!");
+    digitalWrite(6, LOW);
+    delay(500);
+    secs = 0;
+    
+  }
+  
+  
+}
+
+void detected(){
+  
+  lcd.print("Motion Detected!");
+  secs++;
+  Serial.println(secs);
+  digitalWrite(6, HIGH);
+  warning(secs);
+  delay(1000);
+  lcd.clear();
+}
+
+void warning(int num){
+  if (num == 3){
+    for(int i=0; i<num; i++){
+      tone(A0, 880, 100);
+      delay(100);
+    }
+  }
+  else if (num == 6){
+    for(int i=0; i<num; i++){
+      tone(A0, 988, 250);
+      delay(100);
+     
+    }
+  }
+  else if (num == 8){
+    for(int i=0; i<num; i++){
+      tone(A0, 1047, 500);
+      delay(100);
+    }
+    secs = 6;
+  }
+  
+}
+~~~
+## Output:
+~~~
+ https://go.screenpal.com/watch/cT6DDwnbUHF
+~~~
 
 ## Result:
+~~~
+Thus the Anti-Theft-Alert-System-using-Tilt-Sensor is performed.
+~~~
+
 
 Result: Thus measure the Tilt Sensor using SW200D with Arduino UNO Board/ESP-32 using Tinker CAD has been Verified Successfully.
 
